@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gestione-collaudo-germanocosti"
+version = "0.1.0"
+description = "App Windows per gestione checklist di collaudo/commissioning con SQLite e report."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Germano Costi" }]
+dependencies = []
+
+[project.scripts]
+gestione-collaudo = "gestione_collaudo.cli:main"
+gestione-collaudo-gui = "gestione_collaudo.gui:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+

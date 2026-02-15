@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+*.sqlite
+*.db
+_export/
+*.egg-info/
+
