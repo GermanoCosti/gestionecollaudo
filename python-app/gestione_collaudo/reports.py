@@ -10,6 +10,7 @@ def build_markdown_report(
     run: Run,
     checklist: list[ChecklistItem],
     progress: dict[int, dict[str, str]],
+    generated_by: str | None = None,
 ) -> str:
     done = 0
     fail = 0
@@ -59,10 +60,14 @@ def build_markdown_report(
             lines.append(f"  - Note: {note}")
 
     lines.append("")
+    if generated_by:
+        lines.append("---")
+        lines.append(f"_Report generato con {generated_by}_")
+        lines.append("")
     return "\n".join(lines)
 
 
-def markdown_to_simple_html(md: str) -> str:
+def markdown_to_simple_html(md: str, footer: str | None = None) -> str:
     # Convertitore minimale (non completo). Serve solo a rendere condivisibile il report.
     lines = md.splitlines()
     out: list[str] = []
@@ -108,6 +113,9 @@ def markdown_to_simple_html(md: str) -> str:
     if ul_open:
         out.append("</ul>")
 
+    if footer:
+        out.append("<hr/>")
+        out.append(f"<p><em>{html.escape(footer)}</em></p>")
+
     out.append("</body></html>")
     return "\n".join(out)
-

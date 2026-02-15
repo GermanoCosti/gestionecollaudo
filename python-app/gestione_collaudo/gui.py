@@ -4,6 +4,7 @@ import pathlib
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
+from gestione_collaudo import APP_AUTORE, APP_HOME, APP_NOME, APP_VERSIONE
 from gestione_collaudo import db
 from gestione_collaudo.importers import import_checklist_csv
 from gestione_collaudo.reports import build_markdown_report, markdown_to_simple_html
@@ -12,7 +13,8 @@ from gestione_collaudo.reports import build_markdown_report, markdown_to_simple_
 class App(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
-        self.title("Gestione Collaudo (MVP)")
+        # Branding visibile (titolo finestra) per rendere chiaro autore/ownership.
+        self.title(f"{APP_NOME} v{APP_VERSIONE} - {APP_AUTORE}")
         self.geometry("1080x720")
         self.minsize(980, 660)
 
@@ -28,6 +30,13 @@ class App(tk.Tk):
     def _build(self) -> None:
         root = ttk.Frame(self, padding=12)
         root.pack(fill="both", expand=True)
+
+        # Menu "Chi siamo" per rendere chiaro l'autore
+        menubar = tk.Menu(self)
+        helpmenu = tk.Menu(menubar, tearoff=0)
+        helpmenu.add_command(label="Informazioni", command=self._about)
+        menubar.add_cascade(label="Aiuto", menu=helpmenu)
+        self.config(menu=menubar)
 
         top = ttk.LabelFrame(root, text="Database")
         top.pack(fill="x")
@@ -358,6 +367,18 @@ class App(tk.Tk):
         self.rep_text.pack(fill="both", expand=True, pady=(10, 0))
         self.rep_text.configure(state="disabled")
 
+    def _about(self) -> None:
+        msg = "\n".join(
+            [
+                f"{APP_NOME} v{APP_VERSIONE}",
+                f"Autore: {APP_AUTORE}",
+                f"Home: {APP_HOME}",
+                "",
+                "Tool per tracciare collaudi (checklist, run, report).",
+            ]
+        )
+        messagebox.showinfo("Informazioni", msg)
+
     def _open_export_dir(self) -> None:
         out = pathlib.Path("_export").resolve()
         out.mkdir(parents=True, exist_ok=True)
@@ -389,14 +410,20 @@ class App(tk.Tk):
         run = runs[0]
         checklist = db.list_checklist(con, pid)
         progress = db.get_run_progress(con, rid)
-        md = build_markdown_report(project, run, checklist, progress)
+        md = build_markdown_report(
+            project,
+            run,
+            checklist,
+            progress,
+            generated_by=f"{APP_NOME} v{APP_VERSIONE} ({APP_AUTORE})",
+        )
         outdir = pathlib.Path("_export").resolve()
         outdir.mkdir(parents=True, exist_ok=True)
         base = f"report_project{pid}_run{rid}"
         md_path = outdir / f"{base}.md"
         html_path = outdir / f"{base}.html"
         md_path.write_text(md, encoding="utf-8")
-        html_path.write_text(markdown_to_simple_html(md), encoding="utf-8")
+        html_path.write_text(markdown_to_simple_html(md, footer=f"{APP_NOME} v{APP_VERSIONE} - {APP_AUTORE}"), encoding="utf-8")
         self.rep_label.configure(text=f"Creati: {md_path.name}, {html_path.name}")
         self._set_rep(md)
         messagebox.showinfo("OK", f"Report creato in:\\n{outdir}")

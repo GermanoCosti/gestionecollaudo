@@ -4,15 +4,21 @@ import argparse
 import pathlib
 import sys
 
+from gestione_collaudo import APP_AUTORE, APP_NOME, APP_VERSIONE
 from gestione_collaudo import db
 from gestione_collaudo.importers import import_checklist_csv
 from gestione_collaudo.reports import build_markdown_report, markdown_to_simple_html
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(prog="gestione-collaudo", description="Gestione Collaudo (MVP).")
+    parser = argparse.ArgumentParser(
+        prog="gestione-collaudo",
+        description=f"{APP_NOME} (MVP) - {APP_AUTORE}",
+    )
+    parser.add_argument("--version", action="store_true", help="Mostra versione e esce")
     parser.add_argument("--db", default="collaudo.sqlite", help="Percorso DB SQLite")
-    sub = parser.add_subparsers(dest="cmd", required=True)
+    # Non rendiamo obbligatorio il subcomando per consentire `--version` senza errori.
+    sub = parser.add_subparsers(dest="cmd")
 
     p_new = sub.add_parser("new-project", help="Crea un progetto")
     p_new.add_argument("--nome", required=True)
@@ -36,6 +42,12 @@ def main() -> int:
     p_rep.add_argument("--out-html", required=False)
 
     args = parser.parse_args()
+    if args.version:
+        print(f"{APP_NOME} v{APP_VERSIONE} - {APP_AUTORE}")
+        return 0
+    if not args.cmd:
+        parser.print_help()
+        return 2
     con = db.connect(args.db)
 
     if args.cmd == "new-project":
@@ -66,7 +78,7 @@ def main() -> int:
         run = runs[0]
         checklist = db.list_checklist(con, args.project_id)
         progress = db.get_run_progress(con, args.run_id)
-        md = build_markdown_report(project, run, checklist, progress)
+        md = build_markdown_report(project, run, checklist, progress, generated_by=f"{APP_NOME} v{APP_VERSIONE} ({APP_AUTORE})")
         out_md = pathlib.Path(args.out_md).resolve()
         out_md.parent.mkdir(parents=True, exist_ok=True)
         out_md.write_text(md, encoding="utf-8")
@@ -74,7 +86,7 @@ def main() -> int:
         if args.out_html:
             out_html = pathlib.Path(args.out_html).resolve()
             out_html.parent.mkdir(parents=True, exist_ok=True)
-            out_html.write_text(markdown_to_simple_html(md), encoding="utf-8")
+            out_html.write_text(markdown_to_simple_html(md, footer=f"{APP_NOME} v{APP_VERSIONE} - {APP_AUTORE}"), encoding="utf-8")
             print(f"OK HTML: {out_html}")
         return 0
 
@@ -84,4 +96,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

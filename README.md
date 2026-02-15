@@ -8,6 +8,9 @@ App Windows (Python) per gestire checklist di collaudo/commissioning:
 
 Stato: MVP.
 
+## Autore
+Creato e mantenuto da **Germano Costi** (GitHub: `GermanoCosti`).
+
 ## Avvio rapido (sviluppo)
 ```powershell
 cd python-app
@@ -23,4 +26,3 @@ Il CSV deve avere intestazioni (minime):
 
 ## Nota
 Questo tool non sostituisce procedure di sicurezza e normative: e' un supporto operativo per tracciare prove e risultati.
-

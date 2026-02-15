@@ -12,10 +12,14 @@ license = { text = "MIT" }
 authors = [{ name = "Germano Costi" }]
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/GermanoCosti"
+Repository = "https://github.com/GermanoCosti"
+Issues = "https://github.com/GermanoCosti"
+
 [project.scripts]
 gestione-collaudo = "gestione_collaudo.cli:main"
 gestione-collaudo-gui = "gestione_collaudo.gui:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-
