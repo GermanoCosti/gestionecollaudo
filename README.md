@@ -1,5 +1,7 @@
 # Gestione Collaudo
 
+Gestione collaudi e commissioning in azienda: checklist, esecuzioni, tracciabilita e report pronti da condividere (Windows, Python, SQLite).
+
 App Windows (Python) per gestire checklist di collaudo/commissioning:
 - progetti (impianto/linea/macchina)
 - checklist (voci di prova)
