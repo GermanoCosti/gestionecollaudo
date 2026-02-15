@@ -1,5 +1,13 @@
 # Gestione Collaudo (Python)
 
+Creato e mantenuto da **Germano Costi**.
+
+## Download (Windows)
+Se vuoi usare il programma senza installare Python:
+- vai su **Releases** nel repository
+- scarica `GestioneCollaudo.exe` (oppure lo zip)
+- avvia l'eseguibile
+
 ## Installazione (sviluppo)
 ```powershell
 cd python-app
@@ -15,4 +23,3 @@ gestione-collaudo-gui
 ```powershell
 gestione-collaudo --help
 ```
-

@@ -13,9 +13,9 @@ authors = [{ name = "Germano Costi" }]
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/GermanoCosti"
-Repository = "https://github.com/GermanoCosti"
-Issues = "https://github.com/GermanoCosti"
+Homepage = "https://github.com/GermanoCosti/gestionecollaudo"
+Repository = "https://github.com/GermanoCosti/gestionecollaudo"
+Issues = "https://github.com/GermanoCosti/gestionecollaudo/issues"
 
 [project.scripts]
 gestione-collaudo = "gestione_collaudo.cli:main"

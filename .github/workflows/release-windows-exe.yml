@@ -1,0 +1,47 @@
+name: Release Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows-exe:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa build deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r python-app/requirements-build.txt
+
+      - name: Build EXE (PyInstaller)
+        run: |
+          cd python-app
+          pyinstaller --noconfirm --clean --onefile --windowed --name "GestioneCollaudo" gestione_collaudo/gui.py
+
+      - name: Prepara ZIP
+        run: |
+          cd python-app/dist
+          powershell -NoProfile -Command "Compress-Archive -Path .\\GestioneCollaudo.exe -DestinationPath .\\GestioneCollaudo-windows.zip -Force"
+
+      - name: Crea Release e carica file
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            python-app/dist/GestioneCollaudo.exe
+            python-app/dist/GestioneCollaudo-windows.zip
+          generate_release_notes: true
+
