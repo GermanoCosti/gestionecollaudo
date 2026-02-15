@@ -4,7 +4,8 @@ Creato e mantenuto da **Germano Costi**.
 
 ## Download (Windows)
 Se vuoi usare il programma senza installare Python:
-- vai su **Releases** nel repository
+- vai su **Releases** nel repository (pagina "latest"):
+  - https://github.com/GermanoCosti/gestionecollaudo/releases/latest
 - scarica `GestioneCollaudo.exe` (oppure lo zip)
 - avvia l'eseguibile
 

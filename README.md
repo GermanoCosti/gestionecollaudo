@@ -2,6 +2,11 @@
 
 Gestione collaudi e commissioning in azienda: checklist, esecuzioni, tracciabilita e report pronti da condividere (Windows, Python, SQLite).
 
+## Scarica (Windows)
+1. Apri la pagina Releases: https://github.com/GermanoCosti/gestionecollaudo/releases/latest
+1. In "Assets" scarica `GestioneCollaudo.exe` (oppure lo zip)
+1. Avvia l'eseguibile (Windows potrebbe mostrare SmartScreen al primo avvio)
+
 App Windows (Python) per gestire checklist di collaudo/commissioning:
 - progetti (impianto/linea/macchina)
 - checklist (voci di prova)
