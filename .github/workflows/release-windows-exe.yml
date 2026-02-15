@@ -36,6 +36,14 @@ jobs:
           cd python-app/dist
           powershell -NoProfile -Command "Compress-Archive -Path .\\GestioneCollaudo.exe -DestinationPath .\\GestioneCollaudo-windows.zip -Force"
 
+      - name: Upload artifact (fallback)
+        uses: actions/upload-artifact@v4
+        with:
+          name: GestioneCollaudo-windows
+          path: |
+            python-app/dist/GestioneCollaudo.exe
+            python-app/dist/GestioneCollaudo-windows.zip
+
       - name: Crea Release e carica file
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
@@ -44,4 +52,3 @@ jobs:
             python-app/dist/GestioneCollaudo.exe
             python-app/dist/GestioneCollaudo-windows.zip
           generate_release_notes: true
-
